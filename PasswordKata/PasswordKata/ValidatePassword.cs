@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace PasswordKata;
@@ -11,33 +14,23 @@ public class ValidatePassword
             Errors = ""
         };
 
-        if (pass.Length < 8)
-        {
-            result.Result = false;
-            result.Errors = "Password must be at least 8 characters";
-        }
+        result = Validation(pass, @"\S{8,}", "Password must be at least 8 characters", result);
+        result = Validation(pass, @"^(?=(?:\D*\d){2})[a-zA-Z0-9]*$", "The password must contain at least 2 numbers", result);
+        result = Validation(pass, @"[A-Z]{1,}", "Password must contain at least one capital letter", result);
 
-        var regex = new Regex(@"^(?=(?:\D*\d){2})[a-zA-Z0-9]*$");
-        if (!regex.IsMatch(pass))
-        {
-            if (!result.Result)
-            {
-                result.Errors += "\nThe password must contain at least 2 numbers";
-            }
-            else 
-            {
-                result.Errors = "The password must contain at least 2 numbers";
-            }
-            result.Result = false;
-        }
+        return result;
+    }
 
-        regex = new Regex(@"[A-Z]{1,}");
+    private static ValidationPasswordResult Validation(string pass, string pattern, string errorMessage,
+        ValidationPasswordResult result)
+    {
+        var regex = new Regex(pattern);
         if (!regex.IsMatch(pass)) {
             if (!result.Result) {
-                result.Errors += "\nPassword must contain at least one capital letter";
+                result.Errors += "\n" + errorMessage;
             }
             else {
-                result.Errors = "Password must contain at least one capital letter";
+                result.Errors = errorMessage;
             }
             result.Result = false;
         }

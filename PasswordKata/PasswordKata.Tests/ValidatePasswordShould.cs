@@ -17,7 +17,7 @@ namespace PasswordKata.Tests {
         }
 
         [Test]
-        public void Password_with_more_than_8_characters_and_two_numbers()
+        public void Password_with_more_than_8_characters_and_two_numbers_and_a_capital_letter()
         {
             var  result = ValidatePassword.Validate("abCd1ert4");
 
