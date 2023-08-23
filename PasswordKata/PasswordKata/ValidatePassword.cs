@@ -31,6 +31,17 @@ public class ValidatePassword
             result.Result = false;
         }
 
+        regex = new Regex(@"[A-Z]{1,}");
+        if (!regex.IsMatch(pass)) {
+            if (!result.Result) {
+                result.Errors += "\nPassword must contain at least one capital letter";
+            }
+            else {
+                result.Errors = "Password must contain at least one capital letter";
+            }
+            result.Result = false;
+        }
+
         return result;
     }
 }
