@@ -10,7 +10,7 @@ namespace PasswordKata.Tests {
         [Test]
         public void Password_with_less_than_8_characters()
         {
-            var result = ValidatePassword.Validate("abcd");
+            var result = ValidatePassword.Validate("abcd15");
 
             result.Result.Should().Be(false);
             result.Errors.Should().Be("Password must be at least 8 characters");
@@ -32,6 +32,16 @@ namespace PasswordKata.Tests {
 
             result.Result.Should().Be(false);
             result.Errors.Should().Be("The password must contain at least 2 numbers");
+        }
+
+        [Test]
+        public void Password_with_less_than_8_characters_and_only_one_number()
+        {
+            var result = ValidatePassword.Validate("abc1");
+
+            result.Result.Should().Be(false);
+            result.Errors.Should()
+                .Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers");
         }
     }
 }

@@ -15,15 +15,20 @@ public class ValidatePassword
         {
             result.Result = false;
             result.Errors = "Password must be at least 8 characters";
-            return result;
         }
 
         var regex = new Regex(@"^(?=(?:\D*\d){2})[a-zA-Z0-9]*$");
         if (!regex.IsMatch(pass))
         {
+            if (!result.Result)
+            {
+                result.Errors += "\nThe password must contain at least 2 numbers";
+            }
+            else 
+            {
+                result.Errors = "The password must contain at least 2 numbers";
+            }
             result.Result = false;
-            result.Errors = "The password must contain at least 2 numbers";
-            return result;
         }
 
         return result;
